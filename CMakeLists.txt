@@ -4,7 +4,11 @@ project(realTime)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(realTime main.cpp
-        realTimeNetworking/include/abstractSocket/asbtractSocket.h)
+        realTimeNetworking/include/abstractSocket/asbtractSocket.h
+        realTimeNetworking/include/server/serverSocket.h
+        realTimeNetworking/src/server/serverSocket.cpp)
 
-include_directories(C:/libraries/boost_1_84_0)
-link_directories(C:/libraries/boost_1_84_0/stage/lib)
+target_link_libraries(realTime pthread)
+include_directories(E:/realTime/asio-master/asio/include)
+
+target_link_libraries(realTime wsock32 ws2_32)
