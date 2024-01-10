@@ -7,12 +7,16 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Mswsock.lib")

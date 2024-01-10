@@ -11,8 +11,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
-#include <openssl/ssl.h>
-#include <openssl/err.h>
+#include "../encrypt/encryptAndDecrypt.h"
+
 
 #pragma comment(lib, "ws2_32.lib") //Winsock Library
 #pragma comment (lib, "Mswsock.lib")
@@ -29,6 +29,9 @@ private:
     SOCKET listenSocket;
     std::map<SOCKET, SSL*, std::less<>> clientSockets;
 
+    std::mutex clientSocketsMutex;
+
+    cryptoHandler cryptoHandler_;
 public:
     ServerTCP();
     ~ServerTCP() override;
@@ -38,6 +41,7 @@ public:
     int receive(char* buffer, int bufferSize) override;
 
     int send(const char* message) override;
+
 
     void close() override;
 
@@ -52,6 +56,7 @@ private:
 
     void removeClient(int clientId);
 
+    int receivedMessage{};
 };
 
 
