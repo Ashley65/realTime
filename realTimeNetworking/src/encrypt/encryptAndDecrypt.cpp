@@ -86,5 +86,26 @@ void cryptoHandler::performCipherOperation(const std::vector<unsigned char>& inp
     output.resize(updateLength + finalLength);
 }
 
-cryptoHandler::cryptoHandler() {
+void cryptoHandler::generateKeyPair() {
+    EVP_PKEY_CTX *ctx;
+    ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr);
+    if (EVP_PKEY_keygen_init(ctx) <= 0){
+        std:: cerr<< "Error generating key pair."<<std::endl;
+        // Handle error
+
+    }
+    if (EVP_PKEY_keygen_init(ctx) <= 0){
+        std:: cerr<< "Error generating key pair."<<std::endl;
+        // Handle error
+
+    }
+    if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, 2048) <= 0){
+        std:: cerr<< "Error generating key pair."<<std::endl;
+        // Handle error
+
+    }
+    EVP_PKEY_CTX_free(ctx);
+
 }
+
+

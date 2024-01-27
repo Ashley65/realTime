@@ -35,3 +35,26 @@ int databaseManager::executeStatement(const char* sqlStatement) {
 sqlite3 * databaseManager::getDatabase() {
     return db_;
 }
+
+databaseManager* databaseManager::createConnection() {
+    return new databaseManager();
+}
+
+
+// ConnectionPool
+
+databaseManager* ConnectionPool::getConnection(){
+    unique_lock<mutex> lock(poolMutex);
+    cv.wait(lock, [this](){return !connections.empty();});
+
+    databaseManager* connection = connections.front();
+    connections.pop();
+    return connection;
+
+}
+
+void ConnectionPool::returnConnection(databaseManager* connection){
+    lock_guard<mutex> lock(poolMutex);
+    connections.push(connection);
+    cv.notify_one();
+}

@@ -8,19 +8,28 @@
 #include <openssl/evp.h>
 #include <iostream>
 #include <vector>
+#include <openssl/evp.h>
+#include <openssl/rsa.h>
 
 
 class cryptoHandler{
+
+    EVP_PKEY *pkey_;
+
+
 public:
     cryptoHandler(size_t keySize, size_t ivSize) : keySize_(keySize), ivSize_(ivSize) {
         key_.resize(keySize_);
         iv_.resize(ivSize_);
-        generateKey();
+
         generateIV();
+        generateKey();
+        generateKeyPair();
         initializeContexts();
     }
+    cryptoHandler() = default;
 
-    cryptoHandler();
+    void generateKeyPair();
 
     ~cryptoHandler() {
         EVP_CIPHER_CTX_free(encryptCtx_);
